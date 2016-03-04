@@ -1,12 +1,12 @@
 # FileSecuritySystem
 ## 系统架构介绍 
 整个FileManager系统包含五个模块：Index Table(索引表)、Separator(分离器)、Stamper(压注器)、D/Encrytor(加解密器)、Archiver(归档器)。如图：
-
+![image](https://github.com/SecurityKeeper/FileSecuritySystem/tree/master/ReadMe/system.png)
 - **系统初始化变量**:  fileDirectory(文件存储文件夹)、systemKey(文件系统关键系数)、stamp(用户自定义标签)、加密系统可能用到的Key。
 - **Index Table**：索引表是整个系统的关键，记录文件存储相关信息。其本身也是一个文件，其内部数据要经过压模－>加密－>归档，存储到fileDirectory中。
 >1. 索引表的名称计算方法：用stamp(若不为int中，可按一定规则转换为int)对systemKey求余，得到的余数经过Base64编码即为存储的文件名。
 >2. 索引表存储的信息：lastNode(一个记录目前系统自增数量的整数)、fileInfo(一个数组，包含所有文件的信息)。具体结构如下：
-
+![image](https://github.com/SecurityKeeper/FileSecuritySystem/tree/master/ReadMe/index.png)
 - **Separator**：分离器主要功能是将文件数据进行分片，便于后续分片加密存储。
 >分片算法：如果文件DataLength<=systemKey，就不再分片，直接进行后续操作。如果Datalength>systemKey，首先用系统生成随机数random()与systemKey求余，余数remain作为分片数。然后DataLength/remain＝maxlength作为每片最大长度。最后，前remain-1片取random()%maxlength长数据，最后一片取剩余的数据。
 
