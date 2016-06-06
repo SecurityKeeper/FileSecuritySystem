@@ -14,6 +14,7 @@
 
 + (id)sharedInstance
 {
+    //test
     static FileManager *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
